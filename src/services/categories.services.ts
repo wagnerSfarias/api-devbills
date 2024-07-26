@@ -1,11 +1,27 @@
-import { Category } from '../entities/category.entity'
+import { StatusCodes } from 'http-status-codes'
 
-export class CategoriesServices {
-  async create(): Promise<Category> {
+import { CategoriesRepository } from '../database/repositories/categories.repository'
+import { CreateCategoryDTO } from '../dtos/categories.dto'
+import { Category } from '../entities/category.entity'
+import { AppError } from '../errors/app.error'
+
+export class CategoriesService {
+  constructor(private categoriesRepository: CategoriesRepository) {}
+
+  async create({ title, color }: CreateCategoryDTO): Promise<Category> {
+    const foundCategory = await this.categoriesRepository.findByTitle(title)
+
+    if (foundCategory) {
+      throw new AppError('Category already exists.', StatusCodes.BAD_REQUEST)
+    }
+
     const category = new Category({
-      title: 'Example Categoiry',
-      color: 'ff33bb',
+      title,
+      color,
     })
-    return category
+
+    const createdCategory = await this.categoriesRepository.create(category)
+
+    return createdCategory
   }
 }
