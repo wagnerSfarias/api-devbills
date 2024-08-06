@@ -4,6 +4,7 @@ import { TransactionsController } from '../controllers/transactions.controller'
 import {
   createTransactionSchema,
   indexTransactionSchema,
+  getDashboardSchema,
 } from '../dtos/transactions.dto'
 import { TransactionFactory } from '../factories/transactions.factory'
 import { ParamsType, validator } from '../middleware/validator.middleware'
@@ -28,4 +29,13 @@ transactionsRoutes.post(
   '/',
   validator({ schema: createTransactionSchema, type: ParamsType.BODY }),
   controller.create,
+)
+
+transactionsRoutes.get(
+  '/dashboard',
+  validator({
+    schema: getDashboardSchema,
+    type: ParamsType.QUERY,
+  }),
+  controller.getDashboard,
 )
