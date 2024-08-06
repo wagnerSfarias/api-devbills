@@ -11,6 +11,8 @@ const controller = new TransactionsController(
   TransactionFactory.getServiceInstance(),
 )
 
+transactionsRoutes.get('/', controller.index)
+
 transactionsRoutes.post(
   '/',
   validator({ schema: createTransactionSchema, type: ParamsType.BODY }),
