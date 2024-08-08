@@ -5,6 +5,7 @@ import {
   CreateTransactionDTO,
   GetDashboardDTO,
   IndexTransactionsDTO,
+  GetFinancialEvolutionDTO,
 } from '../dtos/transactions.dto'
 import { TransactionsService } from '../services/transactions.service'
 
@@ -65,6 +66,24 @@ export class TransactionsController {
       const result = await this.transactionsService.getDashbord({
         beginDate,
         endDate,
+      })
+
+      return res.status(StatusCodes.OK).json(result)
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  getFinancialEvolution = async (
+    req: Request<unknown, unknown, unknown, GetFinancialEvolutionDTO>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { year } = req.query
+
+      const result = await this.transactionsService.getFinancialEvolution({
+        year,
       })
 
       return res.status(StatusCodes.OK).json(result)
