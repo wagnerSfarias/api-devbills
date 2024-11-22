@@ -98,12 +98,12 @@ export class TransactionRepository {
       })
       .group({
         _id: null,
-        income: { $sum: '$income' },
-        expense: { $sum: '$expense' },
+        incomes: { $sum: '$income' },
+        expenses: { $sum: '$expense' },
       })
       .addFields({
-        balane: {
-          $subtract: ['$income', '$expense'],
+        balance: {
+          $subtract: ['$incomes', '$expenses'],
         },
       })
     return result
@@ -178,12 +178,12 @@ export class TransactionRepository {
       })
       .group({
         _id: ['$year', '$month'],
-        income: { $sum: '$income' },
-        expense: { $sum: '$expense' },
+        incomes: { $sum: '$income' },
+        expenses: { $sum: '$expense' },
       })
       .addFields({
-        balane: {
-          $subtract: ['$income', '$expense'],
+        balance: {
+          $subtract: ['$incomes', '$expenses'],
         },
       })
       .sort({
